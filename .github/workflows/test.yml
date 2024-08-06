@@ -20,11 +20,16 @@ jobs:
         with:
           go-version: "^1.22.2"
 
+      - name: Change directory to database
+        run: cd database
+
       - name: Install dependencies
         run: go mod download
+        working-directory: database
 
       - name: Install dependencies
         run: go mod tidy
+        working-directory: database
 
       - name: Create .env.test file
         run: |
@@ -33,3 +38,4 @@ jobs:
 
       - name: Run tests
         run: go test -v ./...
+        working-directory: database
