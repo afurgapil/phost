@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/afurgapil/phost/database/internal/database"
+	"github.com/afurgapil/phost/database/pkg/entities"
 	"github.com/afurgapil/phost/database/pkg/parser"
 )
 
@@ -31,12 +32,12 @@ func HandleExecute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var result interface{}
-	switch command.Type {
-	case parser.Select:
+	switch entities.CommandType(command.Type) {
+	case entities.Select:
 		result, err = executeSelect(command.Args, command.WhereClause)
-	case parser.Insert:
+	case entities.Insert:
 		err = executeInsert(command.Args)
-	case parser.Delete:
+	case entities.Delete:
 		err = executeDelete(command.Args, command.WhereClause)
 	}
 
