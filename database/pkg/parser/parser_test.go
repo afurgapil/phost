@@ -3,115 +3,106 @@ package parser
 import (
 	"reflect"
 	"testing"
+
+	"github.com/afurgapil/phost/database/pkg/entities"
 )
 
 // TODO Test command could be extend
 // TODO Check case sensetive
+// TODO check leading spaces
 func TestParseCommand(t *testing.T) {
 	type args struct {
 		command string
 	}
 	tests := []struct {
-		id         int
 		name       string
 		args       args
-		want       Command
+		want       entities.Command
 		wantErr    bool
 		errMessage string
 	}{
 		{
-			id:   1,
 			name: "Valid SELECT command",
 			args: args{command: "SELECT * FROM table"},
-			want: Command{
-				Type:        Select,
+			want: entities.Command{
+				Type:        entities.Select,
 				Args:        []string{"SELECT", "*", "FROM", "table"},
 				WhereClause: "",
 			},
 			wantErr: false,
 		},
 		{
-			id:         2,
 			name:       "Invalid SELECT command with missing table name",
 			args:       args{command: "SELECT * FROM"},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "missing argument: <table>",
 		},
 		{
-			id:         3,
 			name:       "Invalid SELECT command with missing columns",
 			args:       args{command: "SELECT FROM table"},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "missing argument: <columns>",
 		},
 		{
-			id:         4,
 			name:       "Invalid SELECT command with FROM",
 			args:       args{command: "SELECT * table"},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "missing argument: FROM",
 		},
 		{
-			id:   5,
 			name: "Valid SELECT command with WHERE",
 			args: args{command: "SELECT * FROM table WHERE id=1"},
-			want: Command{
-				Type:        Select,
+			want: entities.Command{
+				Type:        entities.Select,
 				Args:        []string{"SELECT", "*", "FROM", "table"},
 				WhereClause: "id=1",
 			},
 			wantErr: false,
 		},
 		{
-			id:         6,
 			name:       "Invalid SELECT command with WHERE",
 			args:       args{command: "SELECT * FROM table WHERE id="},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "incomplete WHERE clause",
 		},
 		{
-			id:      7,
 			name:    "Valid INSERT command",
 			args:    args{command: "INSERT INTO table VALUES ('value1')"},
-			want:    Command{Type: Insert, Args: []string{"INSERT", "INTO", "table", "VALUES", "'value1'"}},
+			want:    entities.Command{Type: entities.Insert, Args: []string{"INSERT", "INTO", "table", "VALUES", "'value1'"}},
 			wantErr: false,
 		},
 		{
-			id:         8,
 			name:       "Invalid INSERT command with null variable",
 			args:       args{command: "INSERT INTO table VALUES ('')"},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "invalid command: empty value detected",
 		},
 		{
-			id:   9,
 			name: "Valid DELETE command",
 			args: args{command: "DELETE FROM table WHERE id=1"},
-			want: Command{
-				Type:        Delete,
+			want: entities.Command{
+				Type:        entities.Delete,
 				Args:        []string{"DELETE", "FROM", "table"},
 				WhereClause: "id=1",
 			},
 			wantErr: false,
 		},
 		{
-			id:         10,
 			name:       "Invalid command",
 			args:       args{command: "UPDATE table SET column=value"},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "invalid command",
 		},
 		{
-			id:         11,
 			name:       "Empty command",
 			args:       args{command: ""},
-			want:       Command{},
+			want:       entities.Command{},
 			wantErr:    true,
 			errMessage: "invalid command",
 		},
@@ -138,7 +129,6 @@ func Test_parseArgs(t *testing.T) {
 		command string
 	}
 	tests := []struct {
-		id              int
 		name            string
 		args            args
 		wantArgs        []string
@@ -147,7 +137,6 @@ func Test_parseArgs(t *testing.T) {
 		wantErrMessage  string
 	}{
 		{
-			id:              1,
 			name:            "Parse SELECT command",
 			args:            args{command: "SELECT * FROM table WHERE id=1"},
 			wantArgs:        []string{"SELECT", "*", "FROM", "table"},
@@ -155,7 +144,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErr:         false,
 		},
 		{
-			id:              2,
 			name:            "Parse INSERT command without WHERE",
 			args:            args{command: "INSERT INTO table VALUES ('value1')"},
 			wantArgs:        []string{"INSERT", "INTO", "table", "VALUES", "'value1'"},
@@ -163,7 +151,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErr:         false,
 		},
 		{
-			id:              3,
 			name:            "Parse DELETE command with WHERE",
 			args:            args{command: "DELETE FROM table WHERE id=1"},
 			wantArgs:        []string{"DELETE", "FROM", "table"},
@@ -171,7 +158,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErr:         false,
 		},
 		{
-			id:              4,
 			name:            "Parse command with no WHERE clause",
 			args:            args{command: "SELECT * FROM table"},
 			wantArgs:        []string{"SELECT", "*", "FROM", "table"},
@@ -179,7 +165,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErr:         false,
 		},
 		{
-			id:              5,
 			name:            "Parse empty command",
 			args:            args{command: ""},
 			wantArgs:        nil,
@@ -188,7 +173,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErrMessage:  "missing argument",
 		},
 		{
-			id:              6,
 			name:            "Incomplete WHERE clause",
 			args:            args{command: "SELECT * FROM table WHERE id="},
 			wantArgs:        nil,
