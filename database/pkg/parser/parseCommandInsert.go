@@ -8,6 +8,16 @@ import (
 
 func ParseCommandInsert(command string) (entities.Command, error) {
 	args, _, err := parseArgs(command)
+
+	if args[1] != "INTO" {
+		return entities.Command{}, errors.New("invalid command: missing value INTO")
+	}
+	if args[2] == "VALUES" {
+		return entities.Command{}, errors.New("invalid command: missing table name")
+	}
+	if args[3] != "VALUES" {
+		return entities.Command{}, errors.New("invalid command: missing value VALUES")
+	}
 	if err != nil {
 		return entities.Command{}, err
 
