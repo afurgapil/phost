@@ -125,12 +125,13 @@ func decrypt(cipherText, key []byte) ([]byte, error) {
 	return plainText, nil
 }
 
-func (db *Database) AddRecord(value string) {
+func (db *Database) AddRecord(recordValue string) (int, string) {
 	db.Mutex.Lock()
 	defer db.Mutex.Unlock()
 	id := len(db.Records) + 1
-	db.Records = append(db.Records, Record{ID: id, Value: value})
-	println("DB:", db, "Record:", value)
+	db.Records = append(db.Records, Record{ID: id, Value: recordValue})
+	println("DB:", db, "ID:", id, "Record:", recordValue)
+	return id, recordValue
 }
 
 func (db *Database) GetRecord(id int) *Record {
