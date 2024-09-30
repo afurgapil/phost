@@ -22,7 +22,10 @@ go.work
 
 /database/tmp
 /database/tmp/*
+/backend/tmp
+/backend/tmp/*
 /database/data.json
 .DS_store
 .env.test
 .env.development
+database/data.json
