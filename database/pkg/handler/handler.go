@@ -52,7 +52,7 @@ func HandleExecute(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if result != nil {
-		w.Header().Set("Content-Type", "application/json") // JSON içeriği belirle
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(result)
 	}
 }
