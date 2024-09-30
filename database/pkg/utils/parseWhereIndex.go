@@ -17,6 +17,7 @@ func ParseWhereIndex(command string) (updatedCommand string, whereClause string,
 	whereIndex := strings.Index(strings.ToUpper(command), "WHERE")
 	if whereIndex != -1 {
 		whereClause = strings.TrimSpace(command[whereIndex+len("WHERE"):])
+
 		if len(whereClause) == 0 || !strings.Contains(whereClause, "=") {
 			return "", "", errors.New("incomplete or invalid WHERE clause")
 		}
