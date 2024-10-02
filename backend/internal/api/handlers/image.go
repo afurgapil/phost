@@ -19,6 +19,19 @@ func NewHandler(service image.Service) *Handler {
 	}
 }
 
+func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		h.CreateImage(w, r)
+	case http.MethodGet:
+		h.GetImageByID(w, r)
+	case http.MethodDelete:
+		h.DeleteImage(w, r)
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
+
 func (h *Handler) CreateImage(w http.ResponseWriter, r *http.Request) {
 	var image entities.Image
 	if err := json.NewDecoder(r.Body).Decode(&image); err != nil {
