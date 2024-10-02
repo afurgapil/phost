@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 import { useTheme } from "../context/ThemeContext";
+import Link from "next/link";
 
 const ImagePage = () => {
   const router = useRouter();
@@ -24,14 +25,12 @@ const ImagePage = () => {
 
         const data = await res.json();
         if (!data || !data.value) {
-          router.replace("/404");
         } else {
           setImage(data);
           setImg(data.value.substring(22));
         }
       } catch (error) {
         console.error(error);
-        router.replace("/nf");
       } finally {
         setLoading(false);
       }
@@ -41,6 +40,26 @@ const ImagePage = () => {
   }, [id, router]);
 
   if (loading) return <div>Loading...</div>;
+
+  if (error) {
+    return (
+      <div
+        className={`${
+          darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+        } flex flex-col items-center justify-center min-h-screen`}
+      >
+        <h1 className="text-6xl font-bold mb-4">404</h1>
+        <p className="text-2xl mb-8">
+          Sorry, the image you are looking for was not found
+        </p>
+        <Link href="/">
+          <p className="text-lg text-blue-500 hover:underline">
+            Click here to return to the home page
+          </p>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <Layout title="Image | Phost">
@@ -55,6 +74,14 @@ const ImagePage = () => {
           alt={image.id}
           className="max-w-11/12 md:max-w-full md:h-[70vh] rounded-lg shadow-lg"
         />
+
+        <a
+          href={`data:image/jpeg;base64,${img}`}
+          download={`image-${image.id}.jpg`}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          Download Image
+        </a>
       </div>
     </Layout>
   );
