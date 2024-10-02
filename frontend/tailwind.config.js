@@ -17,6 +17,9 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      maxWidth: {
+        "11/12": "91.666667%",
+      },
     },
   },
   plugins: [],

@@ -53,7 +53,7 @@ const ImagePage = () => {
           unoptimized
           src={`data:image/jpeg;base64,${img}`}
           alt={image.id}
-          className="max-w-full h-[70vh] rounded-lg shadow-lg"
+          className="max-w-11/12 md:max-w-full md:h-[70vh] rounded-lg shadow-lg"
         />
       </div>
     </Layout>

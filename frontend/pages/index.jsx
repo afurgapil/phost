@@ -138,7 +138,7 @@ export default function Home() {
             >
               Image URL:
             </label>
-            <div className="flex items-center">
+            <div className="flex flex-col md:flex-row items-center">
               <input
                 type="text"
                 value={imageURL}
@@ -149,26 +149,28 @@ export default function Home() {
                     : "bg-white text-gray-700 border-gray-300"
                 } w-80`}
               />
-              <button
-                onClick={copyToClipboard}
-                className={`ml-2 w-24 h-10 rounded-md flex justify-center items-center ${
-                  darkMode
-                    ? "bg-blue-700 hover:bg-blue-800 text-white"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
-                } transition duration-300`}
-              >
-                <FaRegCopy className="text-2xl" />
-              </button>
-              <button
-                onClick={goToImage}
-                className={`ml-2 w-24 h-10 rounded-md flex justify-center items-center ${
-                  darkMode
-                    ? "bg-green-700 hover:bg-green-800 text-white"
-                    : "bg-green-600 hover:bg-green-700 text-white"
-                } transition duration-300`}
-              >
-                <LuInspect className="text-2xl" />
-              </button>
+              <div className="flex flex-row md:flex-row gap-x-2 py-4">
+                <button
+                  onClick={copyToClipboard}
+                  className={`ml-2 w-24 h-10 rounded-md flex justify-center items-center ${
+                    darkMode
+                      ? "bg-blue-700 hover:bg-blue-800 text-white"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  } transition duration-300`}
+                >
+                  <FaRegCopy className="text-2xl" />
+                </button>
+                <button
+                  onClick={goToImage}
+                  className={`ml-2 w-24 h-10 rounded-md flex justify-center items-center ${
+                    darkMode
+                      ? "bg-green-700 hover:bg-green-800 text-white"
+                      : "bg-green-600 hover:bg-green-700 text-white"
+                  } transition duration-300`}
+                >
+                  <LuInspect className="text-2xl" />
+                </button>
+              </div>
             </div>
           </div>
         )}
