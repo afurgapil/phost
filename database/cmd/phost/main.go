@@ -27,7 +27,10 @@ func main() {
 		}
 		log.Println("File not found, a new file will be created.")
 	}
-
+	server := &http.Server{
+		Addr:           ":" + port,
+		MaxHeaderBytes: 1 << 30,
+	}
 	handler.SetDatabase(db)
 
 	http.HandleFunc("/execute", handler.HandleExecute)
@@ -37,7 +40,7 @@ func main() {
 
 	go func() {
 		log.Printf("Starting server on port %s...", port)
-		if err := http.ListenAndServe(":"+port, nil); err != nil {
+		if err := server.ListenAndServe(); err != nil {
 			log.Fatal(err)
 		}
 	}()
