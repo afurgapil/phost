@@ -33,11 +33,12 @@ jobs:
       - name: Run database
         working-directory: database
         run: |
+          echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY}}" >> .env.development
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.development
-           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.development
-           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.development
-           nohup go run cmd/phost/main.go &
-           echo $! > app.pid
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.development
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.development
+          nohup go run cmd/phost/main.go &
+          echo $! > app.pid
 
       - name: Install dependencies and run tests for backend
         working-directory: backend
