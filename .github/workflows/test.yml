@@ -33,17 +33,20 @@ jobs:
       - name: Run database
         working-directory: database
         run: |
-          nohup go run cmd/phost/main.go &
-          echo $! > app.pid
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.development
+           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.development
+           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.development
+           nohup go run cmd/phost/main.go &
+           echo $! > app.pid
 
       - name: Install dependencies and run tests for backend
         working-directory: backend
         run: |
           go mod download
           go mod tidy
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.test
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.test
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.test
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.development
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.development
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.development
           go test -v ./...
 
       - name: Install dependencies and run tests for frontend
