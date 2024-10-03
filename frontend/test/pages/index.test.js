@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { within, render, screen, fireEvent } from "@testing-library/react";
 import Home from "../../pages/index";
 import { ThemeProvider } from "../../context/ThemeContext";
 const renderWithTheme = (initialDarkMode) => {
@@ -45,8 +45,11 @@ describe("Home component", () => {
     const uploadedImg = await screen.findByAltText("Uploaded Preview");
     expect(uploadedImg).toBeInTheDocument();
 
-    const removeButton = screen.getByRole("button", { name: /remove image/i });
+    const removeButton = screen.getByTestId("remove-button");
     expect(removeButton).toBeInTheDocument();
+
+    const icon = within(removeButton).getByTestId("delete-icon");
+    expect(icon).toBeInTheDocument();
 
     fireEvent.click(removeButton);
     expect(uploadedImg).not.toBeInTheDocument();
