@@ -18,25 +18,30 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: "^1.22.2"
+          go-version: "1.22.2"
 
-      - name: Change directory to database
-        run: cd database
-
-      - name: Install dependencies
-        run: go mod download
+      - name: Install dependencies and run tests for database
         working-directory: database
-
-      - name: Install dependencies
-        run: go mod tidy
-        working-directory: database
-
-      - name: Create .env.test file
         run: |
-          echo "DB_HOST=${{ secrets.PORT }}" >> .env.test
-          echo "DB_PORT=${{ secrets.ENCRYPTION_KEY }}" >> .env.test
+          go mod download
+          go mod tidy
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.test
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.test
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.test
+          go test -v ./...
 
-      - name: Run tests
-        run: go test -v ./...
-        working-directory: database
+      - name: Install dependencies and run tests for backend
+        working-directory: backend
+        run: |
+          go mod download
+          go mod tidy
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env.test
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.test
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.test
+          go test -v ./...
+
+      - name: Install dependencies and run tests for frontend
+        working-directory: frontend
+        run: |
+          npm install
+          npm test
