@@ -8,11 +8,9 @@ import (
 )
 
 func LoadConfig(envVar string) (string, error) {
-	// We use .env.development in development phase
 	envFile := ".env.development"
-
 	if err := godotenv.Load(envFile); err != nil {
-		return "", fmt.Errorf("failed to load .env file: %w", err)
+		fmt.Printf(".env.development file not found, proceeding with environment variables\n")
 	}
 
 	value := os.Getenv(envVar)
