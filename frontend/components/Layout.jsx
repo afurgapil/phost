@@ -1,14 +1,15 @@
+import React from "react";
 import Head from "next/head";
 import Header from "./Header";
 import Footer from "./Footer";
 
-export default function Layout({ children, title = "My Next.js Project" }) {
+export default function Layout({ children, title }) {
   return (
     <>
       <Head>
         <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="A sample Next.js project" />
+        <meta name="description" content="Free image host" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="layout">

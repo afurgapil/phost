@@ -1,16 +1,9 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const isDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    setDarkMode(isDarkMode);
-  }, []);
+export const ThemeProvider = ({ children, initialDarkMode }) => {
+  const [darkMode, setDarkMode] = useState(initialDarkMode);
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);

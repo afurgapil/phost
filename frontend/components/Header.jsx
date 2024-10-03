@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useTheme } from "../context/ThemeContext";
+import React from "react";
 
 export default function Header() {
   const { darkMode, toggleDarkMode } = useTheme();

@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import { useTheme } from "../context/ThemeContext";
@@ -8,6 +9,7 @@ const NotFoundPage = () => {
   return (
     <Layout title="404 - Sayfa Bulunamadı">
       <div
+        data-testid="not-found-page"
         className={`${
           darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
         } flex flex-col items-center justify-center min-h-screen`}
